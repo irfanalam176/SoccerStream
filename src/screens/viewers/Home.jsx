@@ -85,7 +85,7 @@ const cardColors=[Colors.success,Colors.black,Colors.danger]
       <View>
         <View style={style.spaceBetween}>
           <Text style={[style.heading2]}>Live Matches</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>navigation.navigate("allLive")}>
             <Text style={style.links}>See All</Text>
           </TouchableOpacity>
         </View>
@@ -103,7 +103,7 @@ const cardColors=[Colors.success,Colors.black,Colors.danger]
                 teamB={item.teamB}
                 backgroundColor={cardColors[key]}
 
-                onPress={()=>navigation.navigate("allLive")}
+                onPress={()=>console.log("navigate to view this match")}
               />
             ))
           }
