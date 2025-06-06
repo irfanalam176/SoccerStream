@@ -128,7 +128,13 @@ upcommingMatcheCard:{
   padding:10,
   borderRadius:10,
   marginVertical: 1,              
-  elevation: 6,              
+  elevation: 6,   
+  position:"relative"           
+},
+upcommingMatchDate:{
+  position:"absolute",
+  top:10,
+  left:10
 },
 cardContent:{
   paddingHorizontal:25
@@ -198,6 +204,27 @@ cardContent:{
     top:12,
     left:10,
     zIndex:99
+  },
+  venueText:{
+    borderBottomWidth:2,
+    borderBottomColor:Colors.secondary,
+    marginBottom:10
+  },
+  playerImage:{
+    marginHorizontal:"auto",
+    width:300,
+    height:300,
+    objectFit:"contain",
+  },
+  playerCard:{
+    backgroundColor:Colors.black,
+    padding:20,
+    borderRadius:20,
+    marginVertical:20
+  },
+  border:{
+    borderBottomWidth:1,
+    borderBottomColor:Colors.lightGray
   }
 });
 

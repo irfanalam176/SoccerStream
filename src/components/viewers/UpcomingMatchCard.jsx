@@ -2,9 +2,9 @@ import {View, Text,Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import { style } from '../../styles/style';
 
-const UpcomingMatchCard = () => {
+const UpcomingMatchCard = ({onPress}) => {
   return (
-    <TouchableOpacity style={[style.upcommingMatcheCard,style.spaceBetween]}>
+    <TouchableOpacity style={[style.upcommingMatcheCard,style.spaceBetween]} onPress={onPress}>
         <View style={style.team}>
           <Image
             source={require('../../assests/images/rm.png')}

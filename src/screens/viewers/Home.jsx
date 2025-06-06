@@ -114,19 +114,12 @@ const cardColors=[Colors.success,Colors.black,Colors.danger]
 
       <View style={style.spaceBetween}>
         <Text style={[style.heading2]}>Upcoming Matches</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate("allUpcomingMatches")}>
           <Text style={style.links}>See All</Text>
         </TouchableOpacity>
       </View>
       <ScrollView style={style.cardsContainer}>
-        <UpcomingMatchCard />
-        <UpcomingMatchCard />
-        <UpcomingMatchCard />
-        <UpcomingMatchCard />
-        <UpcomingMatchCard />
-        <UpcomingMatchCard />
-        <UpcomingMatchCard />
-        <UpcomingMatchCard />
+        <UpcomingMatchCard onPress={()=>navigation.navigate("viewUpcomingMatch")}/>
         <View style={style.blankPadding} />
       </ScrollView>
     </ScrollView>
