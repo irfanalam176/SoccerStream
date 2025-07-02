@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 const BlankPage = ({navigation}) => {
   useEffect(()=>{checkRole()},[])
   async function checkRole(){
-    navigation.navigate("viewerLayout")
+    navigation.navigate("adminStack")
   }
   return (
     <View>

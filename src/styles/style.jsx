@@ -48,6 +48,12 @@ export const style = StyleSheet.create({
     fontWeight: '500',
     color: Colors.textPrimary,
   },
+  heading4: {
+    marginVertical:10,
+    fontSize: 15,
+    fontWeight: '500',
+    color: Colors.textPrimary,
+  },
   body: {
     fontSize: 16,
     color: Colors.primary,
@@ -225,7 +231,50 @@ cardContent:{
   border:{
     borderBottomWidth:1,
     borderBottomColor:Colors.lightGray
-  }
+  },
+  counterBtn:{
+    width:100,
+    height:100,
+    backgroundColor:Colors.secondary,
+    borderRadius:100,
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center",
+    marginBottom:10
+  },
+
+  // drop down style
+      dropdown: {
+      height: 50,
+     backgroundColor:Colors.secondary,
+      borderWidth: 0.5,
+      borderRadius: 8,
+      paddingHorizontal: 8,
+    },
+    label: {
+      position: 'absolute',
+      backgroundColor: 'white',
+      left: 22,
+      top: 8,
+      zIndex: 999,
+      paddingHorizontal: 8,
+      fontSize: 14,
+    },
+    placeholderStyle: {
+      fontSize: 16,
+      color:"white"
+    },
+    selectedTextStyle: {
+      fontSize: 16,
+    },
+    iconStyle: {
+      width: 20,
+      height: 20,
+    },
+    inputSearchStyle: {
+      height: 40,
+      fontSize: 16,
+    },
 });
 
 
