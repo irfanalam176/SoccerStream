@@ -5,6 +5,7 @@ import AllLiveMatches from '../AllLiveMatches'
 import AllUpComingMatches from '../AllUpComingMatches'
 import ViewUpcomingMatch from '../ViewUpcomingMatch'
 import PlayerProfile from '../PlayerProfile'
+import MatchDetails from '../MatchDetails'
 
 const ViewerLayout = () => {
     const Stack = createNativeStackNavigator()
@@ -15,6 +16,7 @@ const ViewerLayout = () => {
     <Stack.Screen name='allUpcomingMatches' component={AllUpComingMatches}/>
     <Stack.Screen name='viewUpcomingMatch' component={ViewUpcomingMatch}/>
     <Stack.Screen name='playerProfile' component={PlayerProfile}/>
+    <Stack.Screen name='matchDetails' component={MatchDetails}/>
    </Stack.Navigator>
   )
 }

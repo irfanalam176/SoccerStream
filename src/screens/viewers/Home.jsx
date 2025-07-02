@@ -103,7 +103,7 @@ const cardColors=[Colors.success,Colors.black,Colors.danger]
                 teamB={item.teamB}
                 backgroundColor={cardColors[key]}
 
-                onPress={()=>console.log("navigate to view this match")}
+                onPress={()=>navigation.navigate("matchDetails",{color:cardColors[key]})}
               />
             ))
           }
