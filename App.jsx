@@ -9,7 +9,7 @@ const App = () => {
   const Stack = createNativeStackNavigator()
   return (
     <NavigationContainer>
-      <StatusBar hidden/>
+     
       <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='role'>
         <Stack.Screen name='role' component={BlankPage}/>
         <Stack.Screen name='viewerLayout' component={ViewerLayout}/>

@@ -1,4 +1,4 @@
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, SafeAreaView } from 'react-native'
 import React from 'react'
 import { Colors, style } from '../../styles/style'
 import MatchCard from '../../components/viewers/MatchCard'
@@ -7,7 +7,8 @@ import SearchBox from '../../components/comman/SearchBox'
 
 const AllLiveMatches = () => {
   return (
-      <View style={style.wrapper}>
+  <SafeAreaView>
+        <View style={style.wrapper}>
         <Header title={"Live Matches"}/>
         <SearchBox/>
          <ScrollView  style={style.cardsContainer}>
@@ -54,6 +55,7 @@ const AllLiveMatches = () => {
             <View style={style.blankPadding}/>
         </ScrollView>
       </View>
+  </SafeAreaView>
   )
 }
 
