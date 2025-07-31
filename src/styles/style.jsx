@@ -102,7 +102,7 @@ export const style = StyleSheet.create({
     gap: 15,
   },
   team: {
-    width:100,
+    width: 100,
     alignItems: 'center',
   },
   noGap: {
@@ -203,13 +203,13 @@ export const style = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  liveBtn:{
-    backgroundColor:Colors.danger,
-    padding:5,
-    borderRadius:10,
-    width:100,
-    marginBottom:10,
-    alignSelf:"flex-end"
+  liveBtn: {
+    backgroundColor: Colors.danger,
+    padding: 5,
+    borderRadius: 10,
+    width: 100,
+    marginBottom: 10,
+    alignSelf: 'flex-end',
   },
   blankPadding: {paddingBottom: 50},
   gap1: {gap: 4},
@@ -381,12 +381,11 @@ export const style = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:"center",
+    justifyContent: 'center',
     flexWrap: 'wrap',
     marginHorizontal: 'auto',
     marginTop: 10,
     rowGap: 25,
-
   },
   teamBCenter: {
     marginTop: 0,
@@ -416,7 +415,7 @@ export const style = StyleSheet.create({
   },
   playerRow: {
     width: '50%',
-    marginBottom:10
+    marginBottom: 10,
   },
   loginHeader: {
     backgroundColor: Colors.secondary,
@@ -446,7 +445,7 @@ export const style = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     marginHorizontal: 20,
-    width:"100%"
+    width: '100%',
   },
   table: {
     paddingRight: 50,
@@ -466,7 +465,7 @@ export const style = StyleSheet.create({
     paddingHorizontal: 5,
     borderLeftWidth: 1,
     borderColor: Colors.black,
-    width:100
+    width: 100,
   },
   thText: {
     color: Colors.black,
@@ -477,8 +476,8 @@ export const style = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
-    borderBlockColor:Colors.success,
-    borderBottomWidth:1
+    borderBlockColor: Colors.success,
+    borderBottomWidth: 1,
   },
   tdText: {
     color: Colors.black,
@@ -488,25 +487,38 @@ export const style = StyleSheet.create({
     paddingHorizontal: 5,
     borderLeftWidth: 1,
     borderColor: Colors.black,
-    width:100
+    width: 100,
   },
-  tableImage:{
-    width:50,
-    height:50
+  tableImage: {
+    width: 50,
+    height: 50,
   },
-  imageBtn:{
-    marginHorizontal:"auto",
-    borderWidth:1,
-    borderColor:Colors.success
+  imageBtn: {
+    marginHorizontal: 'auto',
+    borderWidth: 1,
+    borderColor: Colors.success,
   },
-  lineUpPlayer:{
-    width:30,
-    height:30,
-    borderRadius:50
+  lineUpPlayer: {
+    width: 30,
+    height: 30,
+    borderRadius: 50,
   },
-  seperater:{
-    height:"100%",
-    width:1,
-    backgroundColor:Colors.black
-  }
+  seperater: {
+    height: '100%',
+    width: 1,
+    backgroundColor: Colors.black,
+  },
+  penality: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap:3,
+    width: 110,
+    flexWrap: 'wrap',
+  },
+  penalityCard: {
+    backgroundColor: Colors.darkGray,
+    padding: 25,
+    borderRadius:10
+  },
 });

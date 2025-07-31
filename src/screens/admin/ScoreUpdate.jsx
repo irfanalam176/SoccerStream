@@ -1,96 +1,170 @@
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
-import {Colors, style} from '../../styles/style';
+import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Colors, style } from '../../styles/style';
 import Feather from 'react-native-vector-icons/Feather';
 import Header from '../../components/comman/Header';
+import { io } from 'socket.io-client';
+import { useFocusEffect } from '@react-navigation/native';
+import { url } from '../../constant';
+import MainBtn from '../../components/comman/MainBtn';
 
-const ScoreUpdate = () => {
+const socket = io('http://192.168.87.73:4000', { autoConnect: false });
+
+const ScoreUpdate = ({ navigation,route }) => {
+  const { id } = route.params;
+  const [teams, setTeams] = useState(null);
   const [score, setScore] = useState({
     teamAScore: 0,
     teamBScore: 0,
   });
 
-  const [redCards, setRedCards] = useState({
-    teamA: [],
-    teamB: [],
-  });
+  // Initialize redCards as empty object, we will set keys dynamically
+  const [redCards, setRedCards] = useState({});
+
+  // Fetch teams on focus
+  useFocusEffect(
+    useCallback(() => {
+      getTeams();
+    }, []),
+  );
+
+  // After teams load, initialize redCards keys with empty arrays for each team name
+  useEffect(() => {
+    if (teams?.team1?.name && teams?.team2?.name) {
+      setRedCards({
+        [teams.team1.name]: [],
+        [teams.team2.name]: [],
+      });
+    }
+  }, [teams]);
+
+  async function getTeams() {
+    try {
+      const response = await fetch(`${url}/admin/getMatchTeams/${id}`, {
+        method: 'GET',
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        setTeams(result);
+      } else {
+        setTeams(null);
+      }
+    } catch (e) {
+      console.log('Cannot get live matches:', e);
+      setTeams(null);
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      socket.connect();
+
+      socket.emit('join-match', id);
+      socket.emit('get-score', id);
+
+      socket.on('score-data', data => {
+        setScore({
+          teamAScore: data.team_A_score ?? data.teamAScore ?? 0,
+          teamBScore: data.team_B_score ?? data.teamBScore ?? 0,
+        });
+      });
+
+      return () => {
+        socket.off('score-data');
+        socket.disconnect();
+      };
+    }, [id]),
+  );
 
   function incrementScore(team) {
     setScore(prev => {
-      if (team === 'A') {
-        return {
-          ...prev,
-          teamAScore: prev.teamAScore + 1,
-        };
-      } else if (team === 'B') {
-        return {
-          ...prev,
-          teamBScore: prev.teamBScore + 1,
-        };
-      }
-      return prev;
+      const newScore = {
+        ...prev,
+        teamAScore: team === 'A' ? prev.teamAScore + 1 : prev.teamAScore,
+        teamBScore: team === 'B' ? prev.teamBScore + 1 : prev.teamBScore,
+      };
+
+      socket.emit('score-update', {
+        matchId: id,
+        team,
+        action: 'increment',
+        score: newScore,
+      });
+
+      return newScore;
     });
   }
 
   function decrementScore(team) {
     setScore(prev => {
-      if (team === 'A') {
-        return {
-          ...prev,
-          teamAScore: Math.max(prev.teamAScore - 1, 0),
-        };
-      } else if (team === 'B') {
-        return {
-          ...prev,
-          teamBScore: Math.max(prev.teamBScore - 1, 0),
-        };
-      }
-      return prev;
+      const newScore = {
+        ...prev,
+        teamAScore:
+          team === 'A' ? Math.max(prev.teamAScore - 1, 0) : prev.teamAScore,
+        teamBScore:
+          team === 'B' ? Math.max(prev.teamBScore - 1, 0) : prev.teamBScore,
+      };
+
+      socket.emit('score-update', {
+        matchId: id,
+        team,
+        action: 'decrement',
+        score: newScore,
+      });
+
+      return newScore;
     });
   }
 
-function redCard(team, player) {
-  setRedCards(prev => {
-    const isAlreadyRed = prev[team].includes(player);
-    return {
-      ...prev,
-      [team]: isAlreadyRed
-        ? prev[team].filter(p => p !== player) 
-        : [...prev[team], player], 
-    };
-  });
-}
+  function redCard(teamName, player) {
+    setRedCards(prev => {
+      const currentCards = prev[teamName] || [];
+      const isAlreadyRed = currentCards.includes(player);
+      const updated = {
+        ...prev,
+        [teamName]: isAlreadyRed
+          ? currentCards.filter(p => p !== player)
+          : [...currentCards, player],
+      };
+
+      // Emit to server for realtime updates
+      socket.emit('card-player', {
+        matchId: id,
+        teamName,
+        player,
+        action: isAlreadyRed ? 'remove' : 'add',
+      });
+
+      return updated;
+    });
+  }
 
   return (
-     <ScrollView style={style.wrapper}>
-         <Header title={"Score Counter"}/>
-      <View
-        style={[style.upcommingMatcheCard, style.spaceBetween, {height: 200}]}>
+    <ScrollView style={style.wrapper}>
+      <Header title={'Score Counter'} />
+     <View style={style.upcommingMatcheCard}>
+       <View
+        style={[style.spaceBetween, { height: 150 }]}>
         <View style={style.team}>
-          <Image
-            source={require('../../assests/images/rm.png')}
-            style={{width: 50, height: 50, objectFit: 'contain'}}
-          />
-          <Text style={[style.mt2, style.smallText]}>Valenica</Text>
+          <Text style={[style.mt2, style.heading4]}>{teams?.team1?.name}</Text>
         </View>
 
         <View>
-          <Text style={{fontSize: 50, color: '#FFF'}}>
+          <Text style={{ fontSize: 50, color: '#FFF' }}>
             {score.teamAScore}:{score.teamBScore}
           </Text>
         </View>
-        <View style={style.team}>
-          <Image
-            source={require('../../assests/images/rm.png')}
-            style={{width: 50, height: 50, objectFit: 'contain'}}
-          />
-          <Text style={[style.mt2, style.smallText]}>RealMadrid</Text>
-        </View>
-      </View>
 
-      {/* buttons */}
+        <View style={style.team}>
+          <Text style={[style.mt2, style.heading4]}>{teams?.team2?.name}</Text>
+        </View>
+
+      </View>
+        <MainBtn text={"Penalites"} style={{backgroundColor:"orange"}} onPress={()=>navigation.navigate("penalties",{teams:teams,id:id})}/>
+     </View>
+
       <View style={style.spaceBetween}>
-        {/* team A counter */}
         <View style={style.mt4}>
           <TouchableOpacity
             style={style.counterBtn}
@@ -98,13 +172,12 @@ function redCard(team, player) {
             <Feather name="chevron-up" size={70} color={Colors.white} />
           </TouchableOpacity>
           <TouchableOpacity
-            style={[style.counterBtn, {backgroundColor: Colors.danger}]}
+            style={[style.counterBtn, { backgroundColor: Colors.danger }]}
             onPress={() => decrementScore('A')}>
             <Feather name="chevron-down" size={70} color={Colors.white} />
           </TouchableOpacity>
         </View>
 
-        {/* team B counter */}
         <View style={style.mt4}>
           <TouchableOpacity
             style={style.counterBtn}
@@ -112,69 +185,66 @@ function redCard(team, player) {
             <Feather name="chevron-up" size={70} color={Colors.white} />
           </TouchableOpacity>
           <TouchableOpacity
-            style={[style.counterBtn, {backgroundColor: Colors.danger}]}
+            style={[style.counterBtn, { backgroundColor: Colors.danger }]}
             onPress={() => decrementScore('B')}>
             <Feather name="chevron-down" size={70} color={Colors.white} />
           </TouchableOpacity>
         </View>
       </View>
-      {/* red card */}
+
       <Text style={style.heading1}>Card A Player</Text>
       <View style={style.cardsContainer}>
-        <View style={[style.spaceBetween]}>
-          <Text style={style.heading3}>Team A</Text>
-          <Text style={style.heading3}>Team B</Text>
+        <View style={style.spaceBetween}>
+          <Text style={style.heading3}>{teams?.team1?.name}</Text>
+          <Text style={style.heading3}>{teams?.team2?.name}</Text>
         </View>
 
-            <View style={style.spaceBetween}>
-  <View>
-    <TouchableOpacity onPress={() => redCard('teamA', 'I. Alam')}>
-      <Text
-        style={[
-          style.heading4,
-          {color: redCards.teamA.includes('I. Alam') ? Colors.danger : Colors.white},
-        ]}>
-        I. Alam
-      </Text>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={() => redCard('teamA', 'S. Akbar')}>
-      <Text
-        style={[
-          style.heading4,
-          {color: redCards.teamA.includes('S. Akbar') ? Colors.danger : Colors.white},
-        ]}>
-        S. Akbar
-      </Text>
-    </TouchableOpacity>
-  </View>
-  <View>
-    <TouchableOpacity onPress={() => redCard('teamB', 'I. Alam')}>
-      <Text
-        style={[
-          style.heading4,
-          {color: redCards.teamB.includes('I. Alam') ? Colors.danger : Colors.white},
-        ]}>
-        I. Alam
-      </Text>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={() => redCard('teamB', 'S. Akbar')}>
-      <Text
-        style={[
-          style.heading4,
-          {color: redCards.teamB.includes('S. Akbar') ? Colors.danger : Colors.white},
-        ]}>
-        S. Akbar
-      </Text>
-    </TouchableOpacity>
-  </View>
-</View>
+        <View style={style.spaceBetween}>
+          <View>
+            {teams?.team1?.players.map((item, key) => (
+              <TouchableOpacity
+                key={key}
+                onPress={() => redCard(teams.team1.name, item.name)}>
+                <Text
+                  style={[
+                    style.heading4,
+                    {
+                      color: redCards[teams.team1.name]?.includes(item.name)
+                        ? Colors.danger
+                        : Colors.white,
+                    },
+                  ]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
 
-    
-    
+          <View>
+            {teams?.team2?.players.map((item, key) => (
+              <TouchableOpacity
+                key={key}
+                onPress={() => redCard(teams.team2.name, item.name)}>
+                <Text
+                  style={[
+                    style.heading4,
+                    {
+                      color: redCards[teams.team2.name]?.includes(item.name)
+                        ? Colors.danger
+                        : Colors.white,
+                    },
+                  ]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
       </View>
+
       <View style={style.blankPadding} />
     </ScrollView>
-  )
-}
+  );
+};
 
-export default ScoreUpdate
+export default ScoreUpdate;

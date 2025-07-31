@@ -39,24 +39,24 @@ const MatchDetailTab = ({route}) => {
       <Text style={{ color: Colors.white }}>Match Details</Text>
    <View style={[style.card, { backgroundColor: Colors.white }]}>
           <View style={[style.spaceBetween,style.pt1,style.pb3,style.border,style.mb3]}>
-          <Text style={{fontWeight:"700"}}>Round</Text>
-          <Text>{detail.round}</Text>
+          <Text style={{fontWeight:"700",color:Colors.black}}>Round</Text>
+          <Text style={{color:Colors.darkGray}}>{detail.round}</Text>
         </View>  
           <View style={[style.spaceBetween,style.pt1,style.pb3,style.border,style.mb3]}>
-          <Text style={{fontWeight:"700"}}>Date</Text>
-          <Text>{detail.match_date}</Text>
+          <Text style={{fontWeight:"700",color:Colors.black}}>Date</Text>
+          <Text style={{color:Colors.darkGray}}>{detail.match_date}</Text>
         </View>  
           <View style={[style.spaceBetween,style.pt1,style.pb3,style.border,style.mb3]}>
-          <Text style={{fontWeight:"700"}}>Time</Text>
-          <Text>{detail.time}</Text>
+          <Text style={{fontWeight:"700",color:Colors.black}}>Time</Text>
+          <Text style={{color:Colors.darkGray}}>{detail.time}</Text>
         </View>  
           <View style={[style.spaceBetween,style.pt1,style.pb3,style.border,style.mb3]}>
-          <Text style={{fontWeight:"700"}}>Venue</Text>
-          <Text>{detail.tournament_location}</Text>
+          <Text style={{fontWeight:"700",color:Colors.black}}>Venue</Text>
+          <Text style={{color:Colors.darkGray}}>{detail.tournament_location}</Text>
         </View>  
           <View style={[style.spaceBetween,style.pt1,style.pb3,style.border,style.mb3]}>
-          <Text style={{fontWeight:"700"}}>League</Text>
-          <Text>{detail.tournament_name}</Text>
+          <Text style={{fontWeight:"700",color:Colors.black}}>League</Text>
+          <Text style={{color:Colors.darkGray}}>{detail.tournament_name}</Text>
         </View>   
         </View>  
 

@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Colors} from '../../../styles/style';
 import TournamentStack from '../stack/TournamentStack';
 import TrackStack from '../stack/TrackStack';
+import Profile from '../Profile';
 
 const adminStack = () => {
   const Tabs = createBottomTabNavigator();
@@ -39,7 +40,7 @@ const adminStack = () => {
   />
   <Tabs.Screen
     name="Profile"
-    component={ScoreUpdate}
+    component={Profile}
     options={{
       tabBarIcon: ({color, size}) => (
         <Feather name="user" size={30} color={color} />

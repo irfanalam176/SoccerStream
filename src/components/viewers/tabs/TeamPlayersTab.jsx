@@ -48,10 +48,10 @@ const TeamPlayersTab = ({navigation, route}) => {
           gap: 10,
           marginBottom: 10,
         }}>
-        <Text style={{fontSize: 12, fontWeight: 'bold', width: '45%'}}>
+        <Text style={{fontSize: 12,color:Colors.black, fontWeight: 'bold', width: '45%'}}>
           {teams?.team1?.name}
         </Text>
-        <Text style={{fontSize: 12, fontWeight: 'bold', width: '45%'}}>
+        <Text style={{fontSize: 12,color:Colors.black, fontWeight: 'bold', width: '45%'}}>
           {teams?.team2?.name}
         </Text>
       </View>
@@ -74,12 +74,12 @@ const TeamPlayersTab = ({navigation, route}) => {
                   position: item?.position,
                   image: item?.image,
                 });
-              }}>
+              }} key={key}>
               <Image
                 source={{uri: `${url}/upload/${item?.image}`}}
                 style={{width: 25, height: 25, borderRadius: 20}}
               />
-              <Text style={{fontSize: 12, fontWeight: 'bold'}}>
+              <Text style={{fontSize: 12, fontWeight: 'bold',color:Colors.darkGray}}>
                 {item?.name}
               </Text>
             </TouchableOpacity>
@@ -106,12 +106,12 @@ const TeamPlayersTab = ({navigation, route}) => {
                   image: item?.image,
                 });
               }}
-              >
+               key={key}>
               <Image
                 source={{uri: `${url}/upload/${item?.image}`}}
                 style={{width: 25, height: 25, borderRadius: 20}}
               />
-              <Text style={{fontSize: 12, fontWeight: 'bold'}}>
+              <Text style={{fontSize: 12, fontWeight: 'bold',color:Colors.darkGray}}>
                 {item?.name}
               </Text>
             </TouchableOpacity>

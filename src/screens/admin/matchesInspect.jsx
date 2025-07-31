@@ -135,9 +135,9 @@ const matchesInspect = ({navigation}) => {
             backgroundColor: 'rgba(0,0,0,0.5)',
           }}>
           <View style={style.modalBody}>
-            <Text style={style.heading3}>Player {selectedMatch?.name}</Text>
+            <Text style={style.heading3}>Match Action</Text>
             <Text style={[style.heading4, {marginVertical: 10}]}>
-              Do You Want to Edit or Delete this Player ?
+              Do You Want to Edit or Delete this Match ?
             </Text>
 
             <View style={[style.spaceBetween, style.gap3]}>
@@ -161,11 +161,21 @@ const matchesInspect = ({navigation}) => {
                 }}
               />
               <MainBtn
-                text="Cancel"
-                style={{flex: 1, backgroundColor: Colors.grey}}
-                onPress={() => setModalVisible(false)}
+                text="Start"
+                style={{flex: 1, backgroundColor: Colors.success}}
+                onPress={() => {
+                  navigation.navigate('scoreUpdate', {
+                    id: selectedMatch.match_id,
+                  });
+                  setModalVisible(false);
+                }}
               />
             </View>
+              <MainBtn
+                text="Cancel"
+                style={{ backgroundColor: Colors.grey,width:100, alignSelf:"flex-end"}}
+                onPress={() => setModalVisible(false)}
+              />
           </View>
         </View>
       </Modal>

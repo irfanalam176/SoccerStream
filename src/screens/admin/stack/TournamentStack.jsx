@@ -11,6 +11,8 @@ import TeamInspect from '../TeamInspect'
 import EditPlayer from '../EditPlayer'
 import matchesInspect from '../matchesInspect'
 import EditMatch from '../EditMatch'
+import ScoreUpdate from '../ScoreUpdate'
+import Penalties from '../Penalties'
 
 const TournamentStack = () => {
     const Stack = createNativeStackNavigator()
@@ -26,6 +28,8 @@ const TournamentStack = () => {
     <Stack.Screen name='editPlayer' component={EditPlayer}/>
     <Stack.Screen name='matchInspect' component={matchesInspect}/>
     <Stack.Screen name='editMatch' component={EditMatch}/>
+    <Stack.Screen name='scoreUpdate' component={ScoreUpdate}/>
+    <Stack.Screen name='penalties' component={Penalties}/>
    </Stack.Navigator>
   )
 }
